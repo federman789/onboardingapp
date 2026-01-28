@@ -1,0 +1,1015 @@
+//-----Start of Concurrent 1---------
+//Defaults On Start Varible
+Concurrent(
+    /*Set(
+        varOpenTopic,
+        1
+    )*/
+    Set(
+        ShowPath,
+        true
+    ),
+    Set(
+        VarShowContent,
+        false
+    ),
+    Set(
+        _PageBrowse,
+        1
+    ),
+    Set(
+        _SelectElement3,
+        0
+    ),
+    //Learner's Choice Opt Out Radio YES/NO
+    ClearCollect(
+        RadioChoice,
+        {
+            ID: 1,
+            Title: "Yes"
+        },
+        {
+            ID: 2,
+            Title: "No"
+        }
+    ),
+//Set color variables
+    //Background - Global Variable
+    Set(
+        BackGround,
+        RGBA(
+            245,
+            245,
+            245,
+            1
+        )
+    ),
+    //Base Letter Color and Base Contrast Color
+    Set(
+        LetterColor,
+        RGBA(
+            66,
+            66,
+            66,
+            1
+        )
+    ),
+    Set(
+        ContrastColor,
+        RGBA(
+            91,
+            95,
+            199,
+            1
+        )
+    ),
+    //Letter White
+    Set(
+        LeeterColorWhite,
+        RGBA(
+            255,
+            255,
+            255,
+            1
+        )
+    ),
+    // Filter Color
+    Set(
+        Filtercolor,
+        RGBA(
+            98,
+            100,
+            167,
+            1
+        )
+    ),
+    //Set Default Order of Assets
+    Set(
+        _sortVariable,
+        "Default"
+    ),
+//Set Deafult Order of Assets _viewOtherRole
+    Set(
+        _sortVariable2,
+        "Default"
+    ),
+//Get both possible emails for user
+    Set(
+        MyUserEmail3,
+        User().Email
+    ),
+//Set variable for UserContactRecord2
+    //This variable is used for the Trace function to grab the actual user's information when using Paola's profile
+    Set(
+        UserContactRecord2,
+        LookUp(
+            Contacts,
+            Email = User().Email
+        )
+    );
+    
+//Condition to determine wether UserContactRecord2 is found in Contacts table
+Set(
+        FoundInContacts,
+        If(
+            IsBlank(UserContactRecord2),
+            "Not Found",
+            "Found"
+        )
+    ),
+    //New Collection for Learner's Choice options
+    ClearCollect(
+        col_learnerchoice,
+        Filter(
+            'Onboarding Experience Choices',
+            Name <> "Opt Out"
+        )
+    ),
+//Variable to navigate inmediately to ThankYou Message after selecting an Onboarding Experience
+    Set(
+        _ConfirmationPage,
+        false
+    ),
+//Collection for Rating Starts in Content Details Screen
+    ClearCollect(
+        _Star,
+        Table(
+            {
+                id: 1,
+                IconNul: 0,
+                IconFill: 1,
+                status: 0
+            },
+            {
+                id: 2,
+                IconNul: 0,
+                IconFill: 1,
+                status: 0
+            },
+            {
+                id: 3,
+                IconNul: 0,
+                IconFill: 1,
+                status: 0
+            },
+            {
+                id: 4,
+                IconNul: 0,
+                IconFill: 1,
+                status: 0
+            },
+            {
+                id: 5,
+                IconNul: 0,
+                IconFill: 1,
+                status: 0
+            }
+        )
+    ),
+//Collection of Area Specific content related Topics
+    ClearCollect(
+        col_AreaTopics,
+        {
+            TopicArea: "Western Europe",
+            TopicNameArea: "Welcome to Microsoft WE",
+            TopicIDArea: "TP-1084"
+        },
+        {
+            TopicArea: "Korea",
+            TopicNameArea: "Welcome to Microsoft Korea",
+            TopicIDArea: "TP-1083"
+        },
+        {
+            TopicArea: "Greater China",
+            TopicNameArea: "Welcome to Microsoft GCR",
+            TopicIDArea: "TP-1082"
+        },
+        {
+            TopicArea: "Japan",
+            TopicNameArea: "Welcome to Microsoft Japan",
+            TopicIDArea: "TP-1081"
+        },
+        {
+            TopicArea: "France",
+            TopicNameArea: "Welcome to Microsoft France",
+            TopicIDArea: "TP-1080"
+        },
+        {
+            TopicArea: "India",
+            TopicNameArea: "Welcome to Microsoft India",
+            TopicIDArea: "TP-1079"
+        },
+        {
+            TopicArea: "Canada",
+            TopicNameArea: "Welcome to Microsoft Canada",
+            TopicIDArea: "TP-1077"
+        },
+        {
+            TopicArea: "Latam",
+            TopicNameArea: "Welcome to Microsoft LATAM",
+            TopicIDArea: "TP-1076"
+        },
+        {
+            TopicArea: "United States",
+            TopicNameArea: "Welcome to Microsoft United States",
+            TopicIDArea: "TP-1075"
+        },
+        {
+            TopicArea: "US Federal",
+            TopicNameArea: "Welcome to Microsoft US Federal",
+            TopicIDArea: "TP-1091"
+        },
+        {
+            TopicArea: "ANZ",
+            TopicNameArea: "Welcome to Microsoft ANZ",
+            TopicIDArea: "TP-1090"
+        },
+        {
+            TopicArea: "Germany",
+            TopicNameArea: "Welcome to Microsoft Germany",
+            TopicIDArea: "TP-1089"
+        },
+        {
+            TopicArea: "Central and Eastern Europe",
+            TopicNameArea: "Welcome to Microsoft CEE",
+            TopicIDArea: "TP-1088"
+        },
+        {
+            TopicArea: "MEA",
+            TopicNameArea: "Welcome to Microsoft MEA",
+            TopicIDArea: "TP-1087"
+        },
+        {
+            TopicArea: "UK",
+            TopicNameArea: "Welcome to Microsoft UK",
+            TopicIDArea: "TP-1086"
+        },
+        {
+            TopicArea: "APAC",
+            TopicNameArea: "Welcome to Microsoft APAC",
+            TopicIDArea: "TP-1085"
+        }
+    ),
+    Set(
+        varSelectedModality,
+        ""
+    ),
+    Set(
+        varSelectedDuration,
+        ""
+    ),
+    Set(
+        varSelectedModality2,
+        ""
+    ),
+    Set(
+        varSelectedDuration2,
+        ""
+    ),
+    Set(
+        _viewOtherRole,
+        false
+    ),
+//Delete if modifiying Impersonate Learner button
+    Set(
+        _ImpersonatingLearner,
+        false
+    ),
+    Set(
+        _AppTheme,
+        "None"
+    ),
+//Submit Form Variable
+    Set(
+        _OptOutFormStep,
+        1
+    ),
+    //Home, Browse and My Choice Collection
+    ClearCollect(
+        HomeBrowse,
+        {
+            ID: 1,
+            Title: "Home"
+        /*Navigation: Content_Screen*/
+        },
+        {
+            ID: 2,
+            Title: "Browse"
+        /*Navigation: Browse_Screen*/
+        },
+        {
+            ID: 3,
+            Title: "My Choice"
+        /*Navigation: Browse_Screen*/
+        }
+    ),
+//Home and Browse Collection
+    ClearCollect(
+        HomeBrowse1,
+        {
+            ID: 1,
+            Title: "Home"
+        /*Navigation: Content_Screen*/
+        },
+        {
+            ID: 2,
+            Title: "Browse"
+       /* Navigation: Browse_Screen*/
+        }
+    ),
+    //Define Home Variable
+    Set(
+        _SelectElement,
+        1
+    ),
+// set variables, view menu size <2
+    Concurrent(
+        Set(
+            ShowHamburgerMenu,
+            true
+        ),
+        Set(
+            ShowMessage1,
+            true
+        )
+    ),
+//Create Collect tabs filter content - Content Screen
+    ClearCollect(
+        TabsFilterContent,
+        Table(
+            {
+                IDTabs: 0,
+                NameTabs: "All modules"
+            },
+            {
+                IDTabs: 1,
+                NameTabs: "Assigned to you"
+            },
+            {
+                IDTabs: 2,
+                NameTabs: "Bookmarked"
+            },
+            {
+                IDTabs: 3,
+                NameTabs: "Completed"
+            },
+            {
+                IDTabs: 4,
+                NameTabs: "My Choice"
+            }
+        )
+    ),
+//Create Collect tabs filter content - Browse Screen
+    ClearCollect(
+        TabsFilterContent3,
+        Table(
+            {
+                IDTabs2: 0,
+                NameTabs2: "All modules"
+            },
+            {
+                IDTabs2: 1,
+                NameTabs2: "Assigned to you"
+            },
+            {
+                IDTabs2: 2,
+                NameTabs2: "Bookmarked"
+            },
+            {
+                IDTabs2: 3,
+                NameTabs2: "Completed"
+            },
+            {
+                IDTabs2: 4,
+                NameTabs2: "My Choice"
+            }
+        )
+    ),
+    //User Validation inside Team for Role Picker Button
+    Set(
+        _UserinLearnerTeam,
+        true
+    )
+);
+//----------End of Concurrent 1--------------
+//----------Start of Concurrent 2--------------
+//NEW Try to find program parameter with user's email
+    //In the BackEnd the Contact.Email field has the format: "alias@microsoft.com"
+Concurrent(
+    Set(
+        varUserEmail,
+        MyUserEmail3
+    ),
+    Set(
+        _UserinLearnerTeam,
+        If(
+            !IsBlank(
+                LookUp(
+                    LookUp(
+                        Users,
+                        'User Name' = User().Email || 'Primary Email' = User().Email
+                    ).'Teams (teammembership_association)',
+                    'Team Name' = "Onboarding App Learners"
+                )
+            ),
+            true,
+            false
+        )
+    )
+);
+//----------End of Concurrent 2--------------
+//----------Start of Concurrent 3--------------
+//varUserProgramParameter Record variable
+Set(
+    varUserProgramParameterRecord,
+    First(
+        Sort(
+            Filter(
+                'Learner Program Parameters',
+                Learner.Email = varUserEmail,
+                Status = 'Status (Learner Program Parameters)'.Active
+            ),
+            'Created On',
+            SortOrder.Descending
+        )
+    ).'Program Parameter'
+);
+//----------End of Concurrent 3--------------
+//----------Start of Concurrent 3.1--------------
+ //varUserProgramParameter variable   
+Set(
+    varUserProgramParameter,
+    varUserProgramParameterRecord.'Program Parameter ID'
+);
+//----------End of Concurrent 3.1--------------
+//----------Start of Concurrent 3.2--------------
+//If email not found, use Paola Medina's Role
+If(
+    IsBlank(varUserProgramParameterRecord),
+    Set(
+        varUserEmail,
+        "paola.medina2@microsoft.com"
+    );
+    Set(
+        varUserProgramParameterRecord,
+        First(
+            Sort(
+                Filter(
+                    'Learner Program Parameters',
+                    Learner.Email = varUserEmail,
+                    Status = 'Status (Learner Program Parameters)'.Active
+                ),
+                'Created On',
+                SortOrder.Descending
+            )
+        ).'Program Parameter'
+    )
+);
+//---------- End of Concurrent 3.2--------------
+//----------Start of Concurrent 3.3--------------
+//varUserProgramParameter variable after NotFound validation 
+Set(
+    varUserProgramParameter,
+    varUserProgramParameterRecord.'Program Parameter ID'
+);
+//---------- End of Concurrent 3.3--------------
+//----------Start of Concurrent 3.4--------------
+    //Set variable for UserContactRecord
+Set(
+    UserContactRecord,
+    First(
+        AddColumns(
+            Filter(
+                Contacts,
+                Email = varUserEmail && Status = 'Status (Contacts)'.Active
+            ),
+            "RealArea",
+            If(
+                'Reports to email level 1' = "JASONZ",
+                "US Federal",
+                'Area (A14)'.'Area (olp_area)'
+            )
+        )
+    )
+);
+//----------End of Concurrent 3.2--------------
+//----------Start of Concurrent 4--------------
+Concurrent(
+//Build a Distinct Collection to Append to col_UserPathsDistinct
+    ClearCollect(
+        col_UserAreaPathsDistinct,
+        AddColumns(
+            Distinct(
+                Filter(
+                    Paths,
+                    Area.'Area (olp_area)' = UserContactRecord.RealArea,
+                    Status = 'Status (Paths)'.Active
+                ),
+                Paths
+            ),
+            "isAreaPath",
+            true
+        )
+    ),
+//Paths for Program Parameter of the Learner Collection
+    ClearCollect(
+        col_UserPPR,
+        AddColumns(
+            Filter(
+                'Paths per Program Parameters',
+                'Program Parameter ID'.'Program Parameter ID' = varUserProgramParameter,
+                Status = 'Status (Paths per Program Parameters)'.Active
+            ),
+            "isAreaPath",
+            false
+        )
+    ),
+//Paths for Program Parameter of the Learner Distinct Collection
+    ClearCollect(
+        col_UserPathsDistinct,
+        AddColumns(
+            Distinct(
+                Filter(
+                    'Paths per Program Parameters',
+                    'Program Parameter ID'.'Program Parameter ID' = varUserProgramParameter,
+                    Status = 'Status (Paths per Program Parameters)'.Active
+                ),
+                Path.Paths
+            ),
+            "isAreaPath",
+            false
+        )
+    ),
+//Learner's choice selection variable 
+    Set(
+        _LearnerChoice,
+        Switch(
+            Text(UserContactRecord.'Onboarding Experience Choice'.Name),
+            "Full Experience",
+            1,
+            "Demos Only",
+            2,
+            "Demos and Shadowing",
+            3,
+            "",
+            4,
+            "Opt Out",
+            5
+        )
+    ),
+//User Persona validation for General User Access, "My Choice" button and filter
+    Set(
+        _NewtoRoleMyChoice,
+        Switch(
+            UserContactRecord.Persona.'Persona (olp_name)',
+            "Role change",
+            true,
+            "Sales at MCAPS",
+            true,
+            "Manager – M to M",
+            true,
+            "Manager – IC to M",
+            true,
+            false
+        )
+    );
+    
+//User Persona For General User Access, "Assigned to you" button and filter
+Set(
+        _NewtoRoleAssigned,
+        Switch(
+            UserContactRecord.Persona.'Persona (olp_name)',
+            "Industry hire",
+            true,
+            "Aspire",
+            true,
+            "Manager – New Hire",
+            true,
+            false
+        )
+    );
+    
+//User Persona validation for General User Access, "My Choice" button and filter
+Set(
+        _NewtoRoleMyChoice2,
+        Switch(
+            Text(UserContactRecord.'Onboarding Experience Status'),
+            "Requested",
+            1,
+            "Approved",
+            2,
+            "Denied",
+            3,
+            4
+        )
+    )
+);
+//----------End of Concurrent 4--------------
+//----------Start of Concurrent 5--------------
+Concurrent(
+//Variables for Trace Function
+    Set(
+        UserProgramParameterRecord,
+        LookUp(
+            'Program Parameters',
+            'Program Parameter ID' = varUserProgramParameter
+        )
+    ),
+//Append User Paths with Area Paths
+    Collect(
+        col_UserPathsDistinct,
+        col_UserAreaPathsDistinct
+    )
+);
+//----------End of Concurrent 5--------------
+//----------Start of Concurrent 5.5--------------
+//Collection for Paths in Distinct Path Collection
+ClearCollect(
+    col_UserPathsFull,
+    AddColumns(
+        Filter(
+            Paths,
+            Paths in col_UserPathsDistinct.Value
+        ),
+        "isAreaPath",
+        LookUp(
+            col_UserPathsDistinct,
+            Value = Paths,
+            isAreaPath
+        ),
+        "PPRSort",
+        LookUp(
+            col_UserPPR,
+            olp_Path.Paths = Paths,
+            'Sort Order'
+        ),
+        "Percentage2",
+        100,
+        "Expanded",
+        false
+    )
+);
+//----------End of Concurrent 5.5--------------
+//----------Start of Concurrent 6--------------
+Concurrent(
+    ClearCollect(
+        col_DistinctTopics,
+        Distinct(
+            col_UserPathsFull,
+            Topic.Topics
+        )
+    ),
+    ClearCollect(
+        col_UserPathsFull2,
+        AddColumns(
+            col_UserPathsFull,
+            "Sort",
+            If(
+                isAreaPath = true,
+                'Area Sort Order',
+                PPRSort
+            ),
+            "TopicID_2",
+            Topic.Topics,
+            "PathID_3",
+            Paths
+        )
+    )
+);
+//----------End of Concurrent 6--------------
+//----------Start of Concurrent 7--------------
+//----------End of Concurrent 7--------------
+//----------Start of Concurrent 8--------------
+Concurrent(
+//Develop of the Performace Improvement 4
+//Assets per Path BackEnd Collection
+    ClearCollect(
+        col_AssetPPath,
+        Filter(
+            'Asset per Paths',
+            Path.Paths in col_UserPathsDistinct.Value,
+            Asset.Status = 'Status (Asset Catalogs)'.Active,
+            Status = 'Status (Asset per Paths)'.Active
+        )
+    ),
+    ClearCollect(
+        col_DistinctTopics2,
+        Sort(
+            AddColumns(
+                Filter(
+                    Topics,
+                    Topics in col_DistinctTopics
+                ),
+                "Percentage",
+                80,
+                "Expanded2",
+                "false",
+                "TopicIndex",
+                1
+            ),
+            Sort,
+            SortOrder.Ascending
+        )
+    )
+);
+//----------End of Concurrent 8--------------
+//----------Start of Concurrent 9--------------
+Concurrent(
+//New Assets per Path for User Paths Collection
+//Show Columns Logic to show needed columns
+    ClearCollect(
+        col_AssetPerPath2,
+        []
+    );
+    ForAll(
+        col_UserPathsFull2,
+        Collect(
+            col_AssetPerPath2,
+            AddColumns(
+                Filter(
+                    col_AssetPPath,
+                    Path.Paths = PathID_3
+                ),
+                "PathID_3",
+                Path.'Path Id',
+                "AssetIDNew",
+                Asset.'Asset ID',
+                "AssetSortOrder2",
+                olp_sortorder
+            )
+        )
+    ),
+    Set(
+        varOpenTopic1,
+        First(col_DistinctTopics2).Topics
+    )
+);
+//----------End of Concurrent 9--------------
+//----------Start of Concurrent 10--------------
+//Collection for ShowColumns
+ClearCollect(
+    col_AssetPerPath3,
+    AddColumns(
+        ShowColumns(
+            col_AssetPerPath2,
+            "PathID_3",
+            "AssetIDNew",
+            "AssetSortOrder2",
+            "olp_required",
+            "olp_AssetCatalog"
+        ),
+        "AssetID_2",
+        olp_AssetCatalog.Certification
+    )
+);
+//----------End of Concurrent 10--------------
+//----------Start of Concurrent 11--------------
+    //Assets per Learner NEW
+ClearCollect(
+    col_UserAssetsPerLearner,
+    Filter(
+        'Assets Per Learners',
+        Contact.'Contact (contactid)' = UserContactRecord.'Contact (contactid)',
+        'Asset ID'.Status = 'Status (Asset Catalogs)'.Active,
+        Status = 'Status (Assets Per Learners)'.Active
+    )
+);
+//----------End of Concurrent 11--------------
+//----------Start of Concurrent 12--------------
+Concurrent(
+//Collection for UserAssets with correct Path
+    ClearCollect(
+        col_UserAssetsNew,
+        AddColumns(
+            col_AssetPerPath3,
+            "AssetPerLearner",
+            Filter(
+                col_UserAssetsPerLearner,
+                'Asset ID'.Certification = olp_AssetCatalog.Certification
+            )
+        )
+    ),
+// Distinct GUID for AssetsPerLearner
+    ClearCollect(
+        col_DistinctAssetIDs,
+        Distinct(
+            col_UserAssetsPerLearner,
+            'Asset ID'.Certification
+        )
+    )
+);
+//----------End of Concurrent 12--------------
+//----------Start of Concurrent 13--------------
+Concurrent(
+//Collection for UserAssets Ungrouped with correct Path
+    ClearCollect(
+        col_UserAssetsNew2,
+        Ungroup(
+            col_UserAssetsNew,
+            "AssetPerLearner"
+        )
+    ),
+// AssetCatalogs ID Collection
+    ClearCollect(
+        col_DistinctAssetIDs2,
+        Filter(
+            'Asset Catalogs',
+            Certification in col_DistinctAssetIDs
+        )
+    )
+);
+//----------End of Concurrent 13--------------
+//----------Start of Concurrent 14--------------
+Concurrent(
+//Set FirstTopicID
+    Set(
+        FirstTopicID,
+        First(col_UserPathsFull2).TopicID_2
+    ),
+//User Assets Collection
+    //Filter out Asset Per Learners which don't belong to relevant paths (in col_UserPaths2).
+    ClearCollect(
+        col_UserAssets_2,
+        AddColumns(
+            If(
+                _NewtoRoleMyChoice && _NewtoRoleMyChoice2 <> 2,
+                col_UserAssetsNew2,
+                Filter(
+                    col_UserAssetsNew2,
+                 //To do: Performance improvement 5 
+                    olp_AssetID.'Asset Title' <> "Choose your onboarding experience"
+                )
+            ),
+            //Review! Columns not needed here. Information will be retrieved from Assets Per Learner above.
+            "TopicID_2",
+            LookUp(
+                col_UserPathsFull2,
+                PathID_3 = Paths
+            ).TopicID_2,
+            "AssetOrder",
+            AssetSortOrder2,
+            "Bookmarked2",
+            If(
+                IsBlank(
+                    Text(
+                     //To do: Performance improvement 6 
+olp_bookmarked)
+                ),
+                "No",
+                Text(
+                 //To do: Performance improvement 7 
+olp_bookmarked)
+            ),
+            "Required3",
+            olp_required,
+            "CompletionStatus",
+            If(
+                IsBlank(
+                    Text(
+                     //To do: Performance improvement 8 
+olp_completed)
+                ),
+                "Not Completed",
+                Text(
+                 //To do: Performance improvement 9
+olp_completed)
+            ),
+            "AssetRating",
+            If(
+                IsBlank(
+                    Text(
+                     //To do: Performance improvement 10
+olp_rating)
+                ),
+                0,
+             //To do: Performance improvement 11
+                olp_rating
+            ),
+            "AssetDuration",
+         //To do: Performance improvement 12
+            olp_AssetID.'Duration (Mins)',
+            "AssetModality_2",
+            Text(
+             //To do: Performance improvement 13 
+olp_AssetID.Modality),
+            "LearnersChoiceAsset",
+         //To do: Performance improvement 14 
+         //Double reference is not allowed. Solution: Doing a LookUp
+            LookUp(
+                col_learnerchoice,
+                Name = olp_AssetID.'Onboarding Experience Choice '.Name,
+                Name
+            )
+        )
+    )
+);
+//----------End of Concurrent 14--------------
+// Set First PathID in First TopicID
+Set(
+    FirstPathIDInTopic,
+    First(
+        Sort(
+            Filter(
+                col_UserPathsFull2,
+                TopicID_2 = FirstTopicID
+            ),
+            Sort,
+            SortOrder.Ascending
+        )
+    ).Paths
+);
+//----------Start of Concurrent 15--------------
+/*Concurrent(*/
+    /*Set(
+        Path_ID3,
+        FirstPathIDInTopic
+    ),*/
+Set(
+    TopicID,
+    FirstTopicID
+);
+/*);*/
+//----------End of Concurrent 15--------------
+//Set variable for displaying assets when starting the app.
+Set(
+    _SelectElement2,
+    0
+);
+//App Insights - Trace Login Information
+Trace(
+    "User Login",
+    NotificationType.Information,
+    {
+        /*UserFullName: If(
+            varUserEmail = "paola.medina2@microsoft.com",
+            If(
+                IsBlank(UserContactRecord2.Email),
+                User().FullName,
+                UserContactRecord2.'Full Name'
+            ),
+            UserContactRecord.'Full Name'
+        ),
+        UserEmail: If(
+            varUserEmail = "paola.medina2@microsoft.com",
+            If(
+                IsBlank(UserContactRecord2.Email),
+                User().Email,
+                UserContactRecord2.Email
+            ),
+            UserContactRecord.Email
+        ),*/
+        UserArea: If(
+            varUserEmail = "paola.medina2@microsoft.com",
+            If(
+                IsBlank(UserContactRecord2.Email),
+                Blank(),
+                UserContactRecord2.'Area (A14)'.'Area (olp_area)'
+            ),
+            UserContactRecord.'Area (A14)'.'Area (olp_area)'
+        ),
+        UserCountry: If(
+            varUserEmail = "paola.medina2@microsoft.com",
+            If(
+                IsBlank(UserContactRecord2.Email),
+                Blank(),
+                UserContactRecord2.'Country (address1_country)'
+            ),
+            UserContactRecord.'Country (address1_country)'
+        ),
+        Date: Now(),
+        LearnerSupport: If(
+            _UserinLearnerTeam,
+            "Learner",
+            "Support"
+        ),
+        MappedtoRole: If(
+            varUserEmail = "paola.medina2@microsoft.com",
+            "No",
+            "Yes"
+        ),
+        LLPPID: varUserProgramParameter,
+        PPProgram: If(
+            varUserEmail = "paola.medina2@microsoft.com",
+            Blank(),
+            UserProgramParameterRecord.Program.Name
+        ),
+        PPOrg: UserProgramParameterRecord.Org,
+        PPRoleSummary: UserProgramParameterRecord.'Role (MSFT)',
+        PPQualifier1: UserProgramParameterRecord.'Qualifier 1',
+        PPQualifier2: UserProgramParameterRecord.'Qualifier 2',
+        PPPersona: UserProgramParameterRecord.Persona.Identifier,
+        PPTimezone: UserProgramParameterRecord.Timezone,
+        /*OnStartLoadTime: Value(Timer1_1.Text) + (Timer2_1.Duration / 1000),*/
+        NumberofAssets: Text(CountRows(col_UserAssets_2)),
+        Control: "OnStart"
+    }
+);
+Patch(
+    col_DistinctTopics2,
+    LookUp(
+        col_DistinctTopics2,
+        ThisRecord.Topics = FirstTopicID
+    ),
+    {Expanded2: "true"}
+);
+//Notify("OnStart Completed");
