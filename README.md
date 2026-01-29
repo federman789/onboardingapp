@@ -3,6 +3,8 @@
 This repository contains **supporting artefacts** from an enterprise **Power Platform onboarding learning portal** project delivered (Power Apps + Dataverse + Power Automate, with usage monitoring via Application Insights).  
 It’s intended as a companion to my CV bullet point, showing how I document, validate, and improve solutions in a real delivery context.
 
+Some of the content has been greyed out or modified for privacy purposes.
+
 
 ## Folder guide
 ### 01_PM_Docs
@@ -27,3 +29,4 @@ Materials from an accessibility review and remediation workstream, including:
 
 ### 05_Solution_Package
 - Solution export/package artefact. These are included as reference only and may require environment-specific dependencies (connections, environment variables, security roles) to import. Also includes a snip of the OnStart code of the front end experience (Canvas App)
+
