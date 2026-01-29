@@ -1,10 +1,36 @@
 # Onboarding Learning Portal — Work Sample Repository (Sanitised)
 
-This repository contains **supporting artefacts** from an enterprise **Power Platform onboarding learning portal** project delivered (Power Apps + Dataverse + Power Automate, with usage monitoring via Application Insights).  
+This repository contains **supporting artefacts** from an enterprise **Power Platform onboarding learning portal** project delivered using **Power Apps (Canvas)**, **Dataverse**, **Power Automate**, and **Application Insights** for usage telemetry.  
 It’s intended as a companion to my CV bullet point, showing how I document, validate, and improve solutions in a real delivery context.
 
 Some of the content has been greyed out or modified for privacy purposes.
 
+## Project overview (what was built)
+The solution’s goal was to provide a single onboarding portal where learners (new employees) could:
+- Discover learning content organised into sections (title, description, image, rating)
+- Track progress (e.g., mark content as completed) and provide feedback/ratings
+- Receive the right content based on role/audience targeting, with access handled automatically
+
+From a technical standpoint, it combined:
+- **Canvas app UX** for the learner experience
+- **Dataverse** for the relational data model (content, learning paths, targeting parameters, assignments)
+- **Power Automate** for automation (targeting, role-based access, content assignment, notifications where applicable)
+- **Application Insights** for telemetry to support adoption monitoring and continuous improvement
+
+
+## My technical contributions (developer-focused)
+Across the programme, my work included:
+- **Canvas app design and implementation**, including navigation patterns, state management, and performance-minded UI logic (with supporting Power Fx snippets included where available).
+- **Dataverse-driven solution design**: aligning UI behaviour with the underlying relational model and ensuring the app experience correctly reflected entity relationships and business rules.
+- **Automation design with Power Automate** to support audience targeting and assignment workflows (e.g., mapping learner attributes to learning paths and granting appropriate access/permissions).
+- **Instrumentation and telemetry** using **Application Insights** to track adoption and usage patterns, enabling data-driven iteration and continuous improvement.
+- **Quality practices** including structured **UAT** and an extensive **accessibility remediation** workstream to reach required standards.
+
+## Confidentiality / access note
+- The original solution and assets were delivered in a client tenant; this repository contains **supporting artefacts only**.
+- Content has been **redacted/sanitised** to remove identifying details (names, emails, internal links/IDs, tenant/environment information, and proprietary programme references).
+
+---
 
 ## Folder guide
 ### 01_PM_Docs
@@ -29,4 +55,3 @@ Materials from an accessibility review and remediation workstream, including:
 
 ### 05_Solution_Package
 - Solution export/package artefact. These are included as reference only and may require environment-specific dependencies (connections, environment variables, security roles) to import. Also includes a snip of the OnStart code of the front end experience (Canvas App)
-
